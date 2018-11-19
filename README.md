@@ -1,5 +1,5 @@
 # FlickrClone
-Front-end Developer Recruitment Assignment
+Using [InVision Studio](https://www.invisionapp.com/studio) instead of SketchApp for main design
 
 ## Simple photos gallery application
 
