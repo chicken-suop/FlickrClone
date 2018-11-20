@@ -1,35 +1,22 @@
-import React from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import React from 'react';
+import PropTypes from 'prop-types';
+import Feed from './pages/Feed';
+import Detail from './pages/Detail';
+import FourOhFour from './pages/FourOhFour';
 
-const App = () => (
-  <Router>
-    <div>
-      <Route path="/feed" component={Feed} />
-    </div>
-  </Router>
-);
+const PAGES = {
+  '/': Feed,
+  '/:id': Detail,
+};
 
-const Detail = ({ match }) => <h3>Requested Param: {match.params.id}</h3>;
-const Feed = ({ match }) => (
-  <div>
-    <h2>Feed</h2>
+const App = ({ pathname }) => {
+  const Handler = PAGES[pathname] || FourOhFour;
 
-    <ul>
-      <li>
-        <Link to={`${match.url}/components`}>Components</Link>
-      </li>
-      <li>
-        <Link to={`${match.url}/props-v-state`}>Props v. State</Link>
-      </li>
-    </ul>
+  return <Handler />;
+};
 
-    <Route path={`${match.path}/:id`} component={Detail} />
-    <Route
-      exact
-      path={match.path}
-      render={() => <h3>Please select a topic.</h3>}
-    />
-  </div>
-);
+App.propTypes = {
+  pathname: PropTypes.oneOf(Object.keys(PAGES)).isRequired,
+};
 
 export default App;
