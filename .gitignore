@@ -1,8 +1,17 @@
 *.DS_Store
 .AppleDouble
 .LSOverride
+node_modules
 
-# Icon must end with two 
+# Build artifacts
+dist/main.js
+dist/main.css
+build/main.css
+build/main.js
+build/specs.js
+build/vendors.js
+
+# Icon must end with two
 Icon
 
 
