@@ -11,6 +11,7 @@
 # production
 /views
 /assets/client.js
+/assets/client.js.gz
 
 # misc
 .DS_Store
