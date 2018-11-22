@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Feed from './pages/Feed';
 import Detail from './pages/Detail';
 
@@ -11,10 +10,10 @@ const App = () => {
     Handler = Feed;
   } else {
     // '/:id' – Feed detail
-    // Very basic, so '/[anything]/[more]' will also work
-    const flickrPhotoId = pathname.match(/[^\/]+\/([0-9]+)/);
+    // Unfound id's will be handled in Detail component (404 for example)
+    const flickrPhotoId = pathname.match(/[^/]+\/([0-9]+)/);
     Handler = () => <Detail id={flickrPhotoId} />;
-  };
+  }
 
   return <Handler />;
 };
