@@ -1,6 +1,13 @@
 # FlickrClone
 Using [InVision Studio](https://www.invisionapp.com/studio) instead of SketchApp for main design
 
+## Status
+
+After first three days of development I have achieved:
+
+![three-days](https://i.imgur.com/TP3cXCL.png)
+
+
 ## Simple photos gallery application
 
 Your task is to build simple photos gallery based on Flickr's public API.
