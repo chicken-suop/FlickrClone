@@ -1,3 +1,4 @@
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const WorkboxPlugin = require('workbox-webpack-plugin');
 const path = require('path');
 
@@ -17,11 +18,19 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
         },
       },
     ],
   },
   plugins: [
+    // Will remove all js files
+    new CleanWebpackPlugin(
+      ['*.js'],
+      { root: path.resolve(process.cwd(), 'assets'), watch: true },
+    ),
     new WorkboxPlugin.GenerateSW({
       // Exclude images from the precache
       exclude: [/\.(?:png|jpg|jpeg|svg)$/],

@@ -5,7 +5,7 @@ const https = require('https');
 const http = require('http');
 const compression = require('compression');
 const template = require('./views/template');
-const content = require('./views/content');
+const renderContent = require('./views/renderContent');
 
 // New Express instance
 const app = express();
@@ -37,10 +37,24 @@ app.get('/exit', (req, res) => {
 });
 
 // Server side rendering
+/* Will match:
+  /feed
+  /feed/
+  /feed/id
+  /feed/id/
+*/
+// const feedAndOptionalId = /\/feed[\/]?[\w]*[\/]?/;
 app.get('*', (req, res) => {
-  const response = template(content);
   res.setHeader('Cache-Control', 'assets, max-age=604800');
-  res.send(response);
+  const { html, styles } = renderContent(req.url);
+  
+  res.send(
+    template({
+      title: 'FlickrClone',
+      styles,
+      html,
+    })
+  );
 });
 
 // Add key and cert for SSL

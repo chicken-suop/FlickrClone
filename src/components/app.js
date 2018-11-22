@@ -1,21 +1,18 @@
 import React from 'react';
-import Feed from './pages/Feed';
-import Detail from './pages/Detail';
+import { renderRoutes } from 'react-router-config';
+import styled from 'styled-components';
+import routes from './routes';
 
-const App = () => {
-  let Handler;
-  const pathname = typeof window !== 'undefined' ? window.location.pathname : '/';
-  if (pathname === '/') {
-    // '/' – Feed list
-    Handler = Feed;
-  } else {
-    // '/:id' – Feed detail
-    // Unfound id's will be handled in Detail component (404 for example)
-    const flickrPhotoId = pathname.match(/[^/]+\/([0-9]+)/);
-    Handler = () => <Detail id={flickrPhotoId} />;
-  }
 
-  return <Handler />;
-};
+const AppContainer = styled.div`
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #ff7657;
+`;
 
-export default App;
+export default () => (
+  <AppContainer>
+    {renderRoutes(routes)}
+  </AppContainer>
+);

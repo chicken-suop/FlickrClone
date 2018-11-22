@@ -1,9 +1,14 @@
 import React from 'react';
+import styled from 'styled-components';
+
+const FeedContainer = styled.div`
+  background: '#ff7657';
+`;
 
 const Feed = () => (
-  <div>
+  <FeedContainer>
     <h1>Feed</h1>
-  </div>
+  </FeedContainer>
 );
 
 export default Feed;
