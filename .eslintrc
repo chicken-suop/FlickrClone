@@ -13,10 +13,18 @@
         // React Native includes images via require('../images/example.png')
         'global-require': 'off',
         // Let variables be defined after use
-        'no-use-before-define': ['error', { 'variables': false }],
-        'import/no-extraneous-dependencies': 'off'
+        'no-use-before-define': 'off',
+        'import/no-extraneous-dependencies': 'off',
+        "no-param-reassign": [2, { "props": false }]
     },
-    "globals": { "fetch": false, "requestAnimationFrame": true, 'alert': true },
+    "globals": {
+      "document": true,
+      "window": true,
+      "navigator": true,
+      "fetch": false,
+      "requestAnimationFrame": true,
+      'alert': true,
+    },
     'env': {
         'jest': true
     }

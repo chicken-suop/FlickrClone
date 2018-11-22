@@ -10,8 +10,10 @@
 
 # production
 /views
-/assets/client.js
-/assets/client.js.gz
+/assets/*
+!/assets/browserconfig.xml
+!/assets/manifest.json
+!/assets/sw.js
 
 # misc
 .DS_Store

@@ -21,17 +21,6 @@ module.exports = merge(common, {
       },
     }),
   ],
-  stats: {
-    // Just for statistics purposes
-    colors: false,
-    hash: true,
-    timings: true,
-    assets: true,
-    chunks: true,
-    chunkModules: true,
-    modules: true,
-    children: true,
-  },
   optimization: {
     minimizer: [
       new UglifyJSPlugin({

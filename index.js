@@ -14,7 +14,7 @@ const app = express();
 app.use(compression())
 
 // Serve static files
-app.use('/assets', express.static(path.resolve(__dirname, 'assets')));
+app.use('/', express.static(path.resolve(__dirname, 'assets')));
 app.use('/media', express.static(path.resolve(__dirname, 'media')));
 
 // Remove powered by express
@@ -45,8 +45,8 @@ app.get('*', (req, res) => {
 
 // Add key and cert for SSL
 const options = {
-  key: fs.readFileSync(__dirname + '/server.key'),
-  cert:  fs.readFileSync(__dirname + '/server.crt')
+  key: fs.readFileSync(__dirname + '/localhost.key'),
+  cert:  fs.readFileSync(__dirname + '/localhost.crt')
 }
 
 // Load SSL options, and Express instance
