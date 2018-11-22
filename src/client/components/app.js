@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { renderRoutes } from 'react-router-config';
 import styled from 'styled-components';
-import routes from './routes';
-
+import routes from '../routes';
 
 const AppContainer = styled.div`
   position: fixed;
@@ -11,8 +11,14 @@ const AppContainer = styled.div`
   background: #ff7657;
 `;
 
-export default () => (
+const App = ({ preloadedData }) => (
   <AppContainer>
-    {renderRoutes(routes)}
+    {renderRoutes(routes, { preloadedData })}
   </AppContainer>
 );
+
+App.propTypes = {
+  preloadedData: PropTypes.shape({}).isRequired,
+};
+
+export default App;

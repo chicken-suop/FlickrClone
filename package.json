@@ -5,12 +5,14 @@
   "license": "MIT",
   "scripts": {
     "start": "npm-run-all --parallel watch:server webpack-dev",
-    "dev": "babel src -d views && node index.js",
+    "serv": "babel src -d lib; node lib/server.js",
     "webpack-prod": "webpack -p --progress --config=config/webpack.prod.js --mode production",
     "webpack-dev": "webpack --watch -p --progress --config=config/webpack.dev.js --mode development",
-    "watch:server": "nodemon --exec \"npm run dev\" --watch \"./src\""
+    "watch:server": "nodemon --exec \"npm run serv\" --watch \"./src\""
   },
   "dependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.1.0",
+    "axios": "^0.18.0",
     "express": "^4.16.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
@@ -29,7 +31,6 @@
     "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
     "babel-plugin-styled-components": "^1.8.0",
-    "clean-webpack-plugin": "^1.0.0",
     "compression": "^1.7.3",
     "compression-webpack-plugin": "^2.0.0",
     "eslint": "^5.9.0",
@@ -43,6 +44,6 @@
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2",
     "webpack-merge": "^4.1.4",
-    "workbox-webpack-plugin": "^3.6.3"
+    "workbox-cli": "^3.6.3"
   }
 }

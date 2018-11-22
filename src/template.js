@@ -1,5 +1,5 @@
 // html skeleton provider
-const template = ({ html, styles, title }) => `
+const template = ({ reactDom, styles, preloadedData }) => `
   <!DOCTYPE html>
   <html lang="en">
   <head>
@@ -12,19 +12,20 @@ const template = ({ html, styles, title }) => `
     <link rel="mask-icon" href="/media/safari-pinned-tab.svg" color="#7b7b7b">
     <meta name="msapplication-TileColor" content="#ededed">
     <meta name="theme-color" content="#ededed">
-    <title>${title}</title>
+    <title>FlickrClone</title>
     <meta name="Description" content="Clone of Flickr. By Elliot">
     ${styles}
   </head>
   <body style="margin: 0;">
-    <div id="root">${html}</div>
+    <div id="root">${reactDom}</div>
+    <script>window.preloadedData = ${JSON.stringify(preloadedData)}</script>
     <script src="/client.js"></script>
     <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/service-worker.js');
-        });
-      }
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+      });
+    }
     </script>
   </body>
   </html>
