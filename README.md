@@ -1,7 +1,7 @@
 # FlickrClone
 Using [InVision Studio](https://www.invisionapp.com/studio) instead of SketchApp for main design
 
-# Status
+## Status
 
 After first three days of development I have achieved:
 
