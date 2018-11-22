@@ -5,7 +5,7 @@ Using [InVision Studio](https://www.invisionapp.com/studio) instead of SketchApp
 
 After first three days of development I have achieved:
 
-![https://i.imgur.com/TP3cXCL.png](three-days)
+![three-days](https://i.imgur.com/TP3cXCL.png)
 
 
 ## Simple photos gallery application
