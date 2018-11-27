@@ -3,8 +3,6 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import theme from '../helpers/styledComponentsConfig';
 
-const node = typeof document !== 'undefined' && document.querySelector('#root > div');
-
 class SearchBar extends React.Component {
   static propTypes = {
     className: PropTypes.string.isRequired,
@@ -16,11 +14,17 @@ class SearchBar extends React.Component {
     this.state = {
       isHidden: false,
     };
-    this.shouldHide = this.shouldHide.bind(this);
+    // Document and window don't scroll, only the "#root > div" element does
+    // Document is undefined in SSR
+    this.node = typeof document !== 'undefined'
+      ? document.querySelector('#root > div')
+      : null;
     this.prevScrollTop = 0;
+    this.shouldHide = this.shouldHide.bind(this);
   }
 
   componentDidMount() {
+    // Only check every 250ms, instead of on each scroll event
     this.interval = setInterval(this.shouldHide, 250);
   }
 
@@ -30,10 +34,10 @@ class SearchBar extends React.Component {
 
   shouldHide = () => {
     // Must scroll more than 5px
-    if (Math.abs(this.prevScrollTop - node.scrollTop) <= 5) return;
+    if (Math.abs(this.prevScrollTop - this.node.scrollTop) <= 5) return;
 
     // Hide searchbar if they scrolled past it, downwards
-    const isHidden = node.scrollTop > this.prevScrollTop && node.scrollTop > 50;
+    const isHidden = this.node.scrollTop > this.prevScrollTop && this.node.scrollTop > 50;
     this.setState((prevState) => {
       if (prevState.isHidden !== isHidden) {
         return { isHidden };
@@ -41,7 +45,7 @@ class SearchBar extends React.Component {
       return {};
     });
 
-    this.prevScrollTop = node.scrollTop;
+    this.prevScrollTop = this.node.scrollTop;
   }
 
   render() {
