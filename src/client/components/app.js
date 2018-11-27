@@ -36,30 +36,28 @@ const AppContainer = styled.div`
 `;
 
 const App = ({ preloadedData }) => (
-  <>
-    <Route
-      render={({ location }) => (
-        <AppContainer>
-          <Switch location={location}>
-            {routes.map(route => (
-              <Route
-                key={route.id}
-                path={route.path}
-                component={props => (
-                  <route.component
-                    preloadedData={preloadedData}
-                    {...props}
-                  />
-                )}
-                exact
-              />
-            ))}
-          </Switch>
-        </AppContainer>
-      )
-      }
-    />
-  </>
+  <Route
+    render={({ location }) => (
+      <AppContainer>
+        <Switch location={location}>
+          {routes.map(route => (
+            <Route
+              key={route.id}
+              path={route.path}
+              component={props => (
+                <route.component
+                  preloadedData={preloadedData}
+                  {...props}
+                />
+              )}
+              exact
+            />
+          ))}
+        </Switch>
+      </AppContainer>
+    )
+    }
+  />
 );
 
 App.propTypes = {

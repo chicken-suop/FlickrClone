@@ -1,6 +1,6 @@
 import React from 'react';
 import { hydrate } from 'react-dom';
-import { Router } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
 import App from './components/app';
 
@@ -22,11 +22,11 @@ delete window.preloadedData;
 
 // Confirm both server and client side pages are identical
 hydrate(
-  <Router>
+  <BrowserRouter>
     <>
       <App preloadedData={data} />
       <GlobalStyle />
     </>
-  </Router>,
+  </BrowserRouter>,
   document.getElementById('root'),
 );

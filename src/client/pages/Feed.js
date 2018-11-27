@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { searchPhotos } from '../helpers/fetch';
 import unixTimestampParse from '../helpers/unixTimestampParse';
 import SearchBar from '../components/SearchBar';
@@ -69,24 +70,26 @@ export default class Feed extends React.Component {
         {preloadedData.photos.photo.map((photo) => {
           const name = photo.realname || photo.ownername;
           return (
-            <FeedItem key={photo.id}>
-              <LazyLoadedImage
-                urlT={photo.url_t} // 100px
-                tHeight={parseInt(photo.height_t, 10)}
-                tWidth={parseInt(photo.width_t, 10)}
-                urlN={photo.url_n} // 320px
-                nHeight={parseInt(photo.height_n, 10)}
-                nWidth={parseInt(photo.width_n, 10)}
-                urlZ={photo.url_z} // 640px
-                zHeight={parseInt(photo.height_z, 10)}
-                zWidth={parseInt(photo.width_z, 10)}
-                alt={`${photo.title} by ${name}`}
-              />
-              <Footer>
-                <FooterText>{name}</FooterText>
-                <FooterText smaller>{unixTimestampParse(photo.dateupload)}</FooterText>
-              </Footer>
-            </FeedItem>
+            <Link to={`/feed/${photo.id}`} key={photo.id}>
+              <FeedItem>
+                <LazyLoadedImage
+                  urlT={photo.url_t} // 100px
+                  tHeight={parseInt(photo.height_t, 10)}
+                  tWidth={parseInt(photo.width_t, 10)}
+                  urlN={photo.url_n} // 320px
+                  nHeight={parseInt(photo.height_n, 10)}
+                  nWidth={parseInt(photo.width_n, 10)}
+                  urlZ={photo.url_z} // 640px
+                  zHeight={parseInt(photo.height_z, 10)}
+                  zWidth={parseInt(photo.width_z, 10)}
+                  alt={`${photo.title} by ${name}`}
+                />
+                <Footer>
+                  <FooterText>{name}</FooterText>
+                  <FooterText smaller>{unixTimestampParse(photo.dateupload)}</FooterText>
+                </Footer>
+              </FeedItem>
+            </Link>
           );
         })}
       </FeedContainer>
