@@ -10,6 +10,27 @@ const AnimatedImageLoad = styled.div`
   height: 0;
   width: 100%;
   overflow: hidden;
+
+  .ls-blur-up-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    font-family: "blur-up: always", "object-fit: cover";
+    object-fit: cover;
+    transform: scale(1.1);
+    filter: blur(10px);
+    opacity: 1;
+    transition: transform 1500ms, opacity 1000ms, filter 1500ms;
+  }
+  
+  .ls-blur-up-img.ls-inview.ls-original-loaded {
+    opacity: 0;
+    filter: blur(5px);
+    transform: scale(1);
+  }
 `;
 
 const Image = styled.img`
@@ -37,23 +58,21 @@ const LazyLoadedImage = (props) => {
   } = props;
 
   return (
-    <>
-      <AnimatedImageLoad imageRatio={calcRatio(tHeight, tWidth)}>
-        <Image
-          alt={alt}
-          data-sizes="auto"
-          data-lowsrc={urlT} // Default
-          data-srcset={`
+    <AnimatedImageLoad imageRatio={calcRatio(tHeight, tWidth)}>
+      <Image
+        alt={alt}
+        data-sizes="auto"
+        data-lowsrc={urlT} // Default
+        data-srcset={`
             ${urlN} ${nWidth}w ${nHeight}h,
             ${urlZ} ${zWidth}w ${zHeight}h,
           `}
-          className="lazyload lazyloadimage"
-        />
-        <noscript>
-          <Image alt={alt} src={urlT} />
-        </noscript>
-      </AnimatedImageLoad>
-    </>
+        className="lazyload lazyloadimage"
+      />
+      <noscript>
+        <Image alt={alt} src={urlT} />
+      </noscript>
+    </AnimatedImageLoad>
   );
 };
 
