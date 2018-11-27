@@ -9,6 +9,9 @@ const AppContainer = styled.div`
   width: 100%;
   height: 100%;
   background: #ff7657;
+  font-family: 'Source Sans Pro', sans-serif;
+  overflow-y: auto;
+  min-height: 0px;
 `;
 
 const App = ({ preloadedData }) => (

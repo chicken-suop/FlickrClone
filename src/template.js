@@ -10,16 +10,63 @@ const template = ({ reactDom, styles, preloadedData }) => `
     <link rel="icon" type="image/png" sizes="32x32" href="/media/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/media/favicon-16x16.png">
     <link rel="mask-icon" href="/media/safari-pinned-tab.svg" color="#7b7b7b">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     <meta name="msapplication-TileColor" content="#ededed">
     <meta name="theme-color" content="#ededed">
     <title>FlickrClone</title>
     <meta name="Description" content="Clone of Flickr. By Elliot">
     ${styles}
+    <style>
+      :root {
+        font-size: 62.5%;
+      }
+
+      body {
+        margin: 0;
+        font-size: 1.6rem;
+      }
+
+      /* Style for lazysizes transitions */
+      .ls-blur-up-img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        font-family: "blur-up: always", "object-fit: cover";
+        object-fit: cover;
+        transform: scale(1.1);
+        filter: blur(10px);
+        opacity: 1;
+        transition: transform 1500ms, opacity 1000ms, filter 1500ms;
+      }
+
+      /* Style for lazysizes transitions */
+      .ls-blur-up-img.ls-inview.ls-original-loaded {
+        opacity: 0;
+        filter: blur(5px);
+        transform: scale(1);
+      }
+    </style>
+
+    <noscript>
+      <style>
+        .lazyloadimage {
+          display: none;
+        }
+      </style>
+    </noscript>
+
+    <!-- Lazysizes is easiest to install like this -->
+    <!-- Lazysizes Blur Up plugin from https://github.com/aFarkas/lazysizes/tree/master/plugins/blur-up -->
+    <script src="https://afarkas.github.io/lazysizes/plugins/blur-up/ls.blur-up.min.js"></script>
+    <!-- Lazysizes from https://github.com/aFarkas/lazysizes -->
+    <script src="https://afarkas.github.io/lazysizes/lazysizes.min.js"></script>
   </head>
-  <body style="margin: 0;">
+  <body>
     <div id="root">${reactDom}</div>
     <script>window.preloadedData = ${JSON.stringify(preloadedData)}</script>
-    <script src="/client.js"></script>
     <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
@@ -27,6 +74,7 @@ const template = ({ reactDom, styles, preloadedData }) => `
       });
     }
     </script>
+    <script src="/client.js"></script>
   </body>
   </html>
 `;

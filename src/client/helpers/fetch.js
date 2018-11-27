@@ -14,16 +14,17 @@ export const searchPhotos = () => (
       api_key: APIKey,
       format: 'json', // They mean JSONP :|
       nojsoncallback: 1, // Disable JSONP (send raw JSON) :D
+      extras: 'owner_name,realname,description,date_upload,url_t,url_n,url_z',
     },
   }).then((response) => {
     if (response.data.stat !== 'ok') {
       // Something broke
-      console.error(response.data.stat, response.data.code, response.data.message);
+      console.log(response.data.stat, response.data.code, response.data.message);
     }
     return response.data;
   }).catch((error) => {
     // Something broke
-    console.error(error);
+    console.log(error.statusCode, error.statusMessage);
     return error;
   })
 );

@@ -58,7 +58,7 @@ app.get('/*', (req, res) => {
     // Hanlde cache
     res.send(template({ styles, reactDom, preloadedData }));
   }).catch((error) => {
-    console.error(error);
+    console.log(error);
   });
 });
 
