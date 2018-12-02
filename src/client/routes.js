@@ -1,7 +1,7 @@
 import Feed from './pages/Feed';
 import Detail from './pages/Detail';
 import FourOhFour from './pages/FourOhFour';
-import { searchPhotos, getContext } from './helpers/fetch';
+import { searchPhotos, getDetail } from './helpers/fetch';
 
 export default [
   {
@@ -16,7 +16,7 @@ export default [
     path: '/feed/:id',
     exact: true,
     component: Detail,
-    fetchData: params => getContext(params.id),
+    fetchData: params => getDetail(Number(params[0].split('feed/')[1])),
   },
   {
     id: 2,

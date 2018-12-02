@@ -25,7 +25,7 @@ const AnimatedImageLoad = styled.div`
     opacity: 1;
     transition: transform 1500ms, opacity 1000ms, filter 1500ms;
   }
-  
+
   .ls-blur-up-img.ls-inview.ls-original-loaded {
     opacity: 0;
     filter: blur(5px);
@@ -51,9 +51,9 @@ const LazyLoadedImage = (props) => {
     urlN,
     nHeight,
     nWidth,
-    urlZ,
-    zHeight,
-    zWidth,
+    urlO,
+    oHeight,
+    oWidth,
     alt,
   } = props;
 
@@ -65,7 +65,7 @@ const LazyLoadedImage = (props) => {
         data-lowsrc={urlT} // Default
         data-srcset={`
             ${urlN} ${nWidth}w ${nHeight}h,
-            ${urlZ} ${zWidth}w ${zHeight}h,
+            ${urlO} ${oWidth}w ${oHeight}h,
           `}
         className="lazyload lazyloadimage"
       />
@@ -83,9 +83,9 @@ LazyLoadedImage.propTypes = {
   urlN: PropTypes.string.isRequired,
   nHeight: PropTypes.number.isRequired,
   nWidth: PropTypes.number.isRequired,
-  urlZ: PropTypes.string.isRequired,
-  zHeight: PropTypes.number.isRequired,
-  zWidth: PropTypes.number.isRequired,
+  urlO: PropTypes.string.isRequired,
+  oHeight: PropTypes.number.isRequired,
+  oWidth: PropTypes.number.isRequired,
   alt: PropTypes.string.isRequired,
 };
 

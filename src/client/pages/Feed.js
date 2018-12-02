@@ -1,102 +1,161 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import AwesomeDebouncePromise from 'awesome-debounce-promise';
+import { compose } from 'recompose';
 import { searchPhotos } from '../helpers/fetch';
-import unixTimestampParse from '../helpers/unixTimestampParse';
 import SearchBar from '../components/SearchBar';
-import LazyLoadedImage from '../components/LazyLoadedImage';
-import theme from '../helpers/styledComponentsConfig';
+import withInfiniteScroll from '../components/withInfiniteScroll';
+import withPaginated from '../components/withPaginated';
+import withLoading from '../components/withLoading';
+import List from '../components/List';
+
+const searchPhotosDebounced = AwesomeDebouncePromise(searchPhotos, 300);
+
+const ListWithoutInfiniteScroll = compose(
+  withPaginated,
+  withLoading,
+)(List);
+
+const ListWithInfiniteScroll = compose(
+  withPaginated,
+  withInfiniteScroll,
+  withLoading,
+)(List);
 
 const FeedContainer = styled.div`
-  padding: 1.2rem;
-  margin-top: 6rem;
+  padding: ${props => props.padding};
+  margin-top: ${props => props.topMargin};
 `;
-
-const FeedItem = styled.div`
-  box-shadow: ${props => props.theme.boxShadow};
-  background: #ffba5a;
-  padding: 1rem;
-  padding-bottom: 0;
-  border-radius: 8px;
-  margin: 0 auto;
-  margin-bottom: 1rem;
-`;
-
-FeedItem.defaultProps = { theme: { boxShadow: theme.boxShadow } };
-
-const Footer = styled.div`
-  padding: 3rem 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const FooterText = styled.span`
-  font-size: ${props => (props.smaller ? '1.3rem' : '1.6rem')};
-  color: ${props => props.theme.color};
-`;
-
-FooterText.defaultProps = { theme: { color: theme.color } };
 
 export default class Feed extends React.Component {
-  fetchData = searchPhotos
+  static propTypes = {
+    preloadedData: PropTypes.shape({}),
+    showSearch: PropTypes.bool,
+    infiniteScroll: PropTypes.bool,
+    feedItemBackground: PropTypes.string,
+    topMargin: PropTypes.string,
+    padding: PropTypes.string,
+  }
+
+  static defaultProps = {
+    preloadedData: { photo: [] },
+    showSearch: true,
+    infiniteScroll: true,
+    feedItemBackground: '#ffba5a',
+    topMargin: '6rem',
+    padding: '1.2rem',
+  }
 
   constructor(props) {
     super(props);
     const { preloadedData } = props;
-    this.state = { preloadedData };
+    this.state = {
+      feedData: preloadedData.photo,
+      page: 1,
+      isLoading: false,
+      isError: false,
+    };
   }
 
-  componentDidMount() {
-    window.addEventListener('lazyload', this.handleScroll);
+  handleTextChange = async (text) => {
+    this.prevText = text;
+    this.setState({ isLoading: true });
+    searchPhotosDebounced({ text, page: 1 })
+      .then(result => this.setResult(result.photo, 1))
+      .catch(this.setError);
   }
 
-  componentWillUnmount() {
-    window.removeEventListener('lazyload', this.handleScroll);
+  getNewData = () => {
+    const { page } = this.state;
+    this.fetchPhotos(this.prevText, page + 1);
   }
 
-  handleScroll = (e) => {
-    e.target.parentNode.classList.add('image-loaded');
-    e.target.parentNode.classList.remove('loading');
+  fetchPhotos = (text, page) => {
+    this.setState({ isLoading: true });
+    searchPhotos({ text, page })
+      .then(result => this.setResult(result.photo, page))
+      .catch(this.setError);
   }
+
+  filterFeed = ({
+    text,
+    userId,
+    filter,
+    isBad,
+  }) => {
+    this.setState({ isLoading: true });
+    searchPhotos({ text, userId })
+      .then(result => result.photo.filter(filter))
+      .then(result => (isBad(result, text)
+        ? this.filterFeed({
+          text: '',
+          userId,
+          filter,
+          isBad,
+        })
+        : result))
+      .then(result => this.setResult(result, 1))
+      .catch(this.setError);
+  }
+
+  setResult = (result, page) => (
+    page === 1
+      ? this.setState(() => ({
+        feedData: result,
+        page,
+        isError: false,
+        isLoading: false,
+      }))
+      : this.setState(prevState => ({
+        feedData: [...prevState.feedData, ...result],
+        page,
+        isError: false,
+        isLoading: false,
+      }))
+  )
+
+  setError = () => this.setState({
+    isError: true,
+    isLoading: false,
+  });
 
   render() {
-    const { preloadedData } = this.state;
+    const {
+      feedItemBackground,
+      topMargin,
+      padding,
+      showSearch,
+      infiniteScroll,
+    } = this.props;
+    const {
+      feedData,
+      isError,
+      isLoading,
+    } = this.state;
 
     return (
-      <FeedContainer>
-        <SearchBar onInput={() => {}} />
-        {preloadedData.photos.photo.map((photo) => {
-          const name = photo.realname || photo.ownername;
-          return (
-            <Link to={`/feed/${photo.id}`} key={photo.id}>
-              <FeedItem>
-                <LazyLoadedImage
-                  urlT={photo.url_t} // 100px
-                  tHeight={parseInt(photo.height_t, 10)}
-                  tWidth={parseInt(photo.width_t, 10)}
-                  urlN={photo.url_n} // 320px
-                  nHeight={parseInt(photo.height_n, 10)}
-                  nWidth={parseInt(photo.width_n, 10)}
-                  urlZ={photo.url_z} // 640px
-                  zHeight={parseInt(photo.height_z, 10)}
-                  zWidth={parseInt(photo.width_z, 10)}
-                  alt={`${photo.title} by ${name}`}
-                />
-                <Footer>
-                  <FooterText>{name}</FooterText>
-                  <FooterText smaller>{unixTimestampParse(photo.dateupload)}</FooterText>
-                </Footer>
-              </FeedItem>
-            </Link>
-          );
-        })}
+      <FeedContainer topMargin={topMargin} padding={padding}>
+        {showSearch && (
+          <SearchBar onInput={this.handleTextChange} />
+        )}
+        {infiniteScroll ? (
+          <ListWithInfiniteScroll
+            feedData={feedData}
+            feedItemBackground={feedItemBackground}
+            isError={isError}
+            isLoading={isLoading}
+            getNewData={this.getNewData}
+          />
+        ) : (
+          <ListWithoutInfiniteScroll
+            feedData={feedData}
+            feedItemBackground={feedItemBackground}
+            isError={isError}
+            isLoading={isLoading}
+          />
+        )}
       </FeedContainer>
     );
   }
 }
-
-Feed.propTypes = {
-  preloadedData: PropTypes.shape({}).isRequired,
-};
