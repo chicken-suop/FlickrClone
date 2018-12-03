@@ -33,6 +33,7 @@ export default class Feed extends React.Component {
     preloadedData: PropTypes.shape({}),
     showSearch: PropTypes.bool,
     infiniteScroll: PropTypes.bool,
+    shouldClearPreloadedData: PropTypes.bool,
     feedItemBackground: PropTypes.string,
     topMargin: PropTypes.string,
     padding: PropTypes.string,
@@ -42,6 +43,7 @@ export default class Feed extends React.Component {
     preloadedData: { photo: [] },
     showSearch: true,
     infiniteScroll: true,
+    shouldClearPreloadedData: true,
     feedItemBackground: '#ffba5a',
     topMargin: '6rem',
     padding: '1.2rem',
@@ -78,25 +80,26 @@ export default class Feed extends React.Component {
       .catch(this.setError);
   }
 
-  filterFeed = ({
+  filterFeed = async ({
     text,
     userId,
     filter,
     isBad,
   }) => {
     this.setState({ isLoading: true });
-    searchPhotos({ text, userId })
+    const sameTitle = await searchPhotos({ text, userId })
       .then(result => result.photo.filter(filter))
-      .then(result => (isBad(result, text)
-        ? this.filterFeed({
-          text: '',
-          userId,
-          filter,
-          isBad,
-        })
-        : result))
-      .then(result => this.setResult(result, 1))
       .catch(this.setError);
+
+    if (isBad(sameTitle, text)) {
+      const allUserPhotos = await searchPhotos({ text: '', userId })
+        .then(result => result.photo.filter(filter))
+        .catch(this.setError);
+
+      this.setResult(allUserPhotos, 1);
+    } else {
+      this.setResult(sameTitle, 1);
+    }
   }
 
   setResult = (result, page) => (
@@ -127,6 +130,7 @@ export default class Feed extends React.Component {
       padding,
       showSearch,
       infiniteScroll,
+      shouldClearPreloadedData,
     } = this.props;
     const {
       feedData,
@@ -146,6 +150,7 @@ export default class Feed extends React.Component {
             isError={isError}
             isLoading={isLoading}
             getNewData={this.getNewData}
+            shouldClearPreloadedData={shouldClearPreloadedData}
           />
         ) : (
           <ListWithoutInfiniteScroll
@@ -153,6 +158,7 @@ export default class Feed extends React.Component {
             feedItemBackground={feedItemBackground}
             isError={isError}
             isLoading={isLoading}
+            shouldClearPreloadedData={shouldClearPreloadedData}
           />
         )}
       </FeedContainer>

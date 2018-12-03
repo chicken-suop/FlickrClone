@@ -27,18 +27,6 @@ const FooterText = styled.span`
   color: ${theme.color};
 `;
 
-const ErrorText = styled.p`
-  font-size: 9rem;
-  font-weight: 600;
-  margin: 1rem;
-  color: ${theme.color};
-`;
-
-const LinkText = styled.u`
-  font-size: 1.8rem;
-  color: ${theme.whiteColor};
-`;
-
 const propsToCheck = [
   'url_t',
   'height_t',
@@ -58,14 +46,17 @@ const hasAllProps = photo => (
   ))
 );
 
-const List = ({ feedData, feedItemBackground }) => {
-  const data = feedData.filter(hasAllProps);
+const List = ({ feedData, feedItemBackground, shouldClearPreloadedData }) => {
+  const data = feedData ? feedData.filter(hasAllProps) : [];
   return (
     data.length
       ? data.map((photo) => {
         const name = photo.realname || photo.ownername;
         return (
-          <Link to={`/feed/${photo.id}`} key={photo.id}>
+          <Link
+            to={`/feed/${photo.id}?clearPreloadedData=${shouldClearPreloadedData}`}
+            key={photo.id}
+          >
             <FeedItem feedItemBackground={feedItemBackground}>
               <LazyLoadedImage
                 urlT={photo.url_t} // 100px
@@ -87,14 +78,7 @@ const List = ({ feedData, feedItemBackground }) => {
           </Link>
         );
       })
-      : [
-        <ErrorText>
-          Diddly squat.
-        </ErrorText>,
-        <LinkText>
-          Clear filters?
-        </LinkText>,
-      ]
+      : <></>
   );
 };
 

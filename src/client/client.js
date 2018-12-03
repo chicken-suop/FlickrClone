@@ -17,14 +17,14 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 // Read, and then delete the preloaded data sent with markup
-const data = window.preloadedData;
+const { preloadedData } = window;
 delete window.preloadedData;
 
 // Confirm both server and client side pages are identical
 hydrate(
   <BrowserRouter>
     <>
-      <App preloadedData={data} />
+      <App preloadedData={preloadedData} />
       <GlobalStyle />
     </>
   </BrowserRouter>,

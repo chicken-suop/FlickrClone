@@ -1,4 +1,4 @@
-/* eslint-disable */
+// /* eslint-disable */
 import express from 'express';
 import path from 'path';
 import fs from 'fs';
@@ -34,13 +34,24 @@ app.get('/robots.txt', (req, res) => {
 // Server side rendering
 app.get('/*', (req, res) => {
   const context = {};
-  const dataRequirements = routes
-    .filter(route => matchPath(req.url, route)) // filter matching paths
-    .filter(route => route.fetchData) // check if route has data requirement
-    .map(route => route.fetchData(req.params));
+  // Find matching path
+  const currentRoute = routes.find(route => matchPath(req.url, route)) || {};
 
-  Promise.all(dataRequirements).then((data) => {
-    const preloadedData = data[0];
+  // Check if route has data requirement
+  let dataRequirement;
+  if (currentRoute.fetchData) {
+    dataRequirement = currentRoute.fetchData(req.params);
+  } else {
+    dataRequirement = Promise.resolve(null);
+  }
+
+  // const dataRequirements = routes
+  //   .filter(route => matchPath(req.url, route))
+  //   .filter(route => route.fetchData) // check if route has data requirement
+  //   .map(route => route.fetchData(req.params));
+
+  dataRequirement.then((data) => {
+    const preloadedData = data;
     // Create stylesheet
     const sheet = new ServerStyleSheet();
     const jsx = (
