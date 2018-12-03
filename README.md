@@ -1,44 +1,35 @@
 # FlickrClone
-Using [InVision Studio](https://www.invisionapp.com/studio) instead of SketchApp for main design
+Simple photos gallery using Flickr's public API
 
-## Status
+## Design
+I made the main app design using [InVision Studio](https://www.invisionapp.com/studio). I chose not to use sketch, because I wanted to try out Studio, see what it's like, and if I'd recommend using either with, or instead of Sketch.
 
-After first three days of development I have achieved:
+The main design is inspired by a number of other great designs. I've included most of my inspiration in the [insp](/insp) dir.
 
-![three-days](https://i.imgur.com/TP3cXCL.png)
+The pallet is a simple four colour scheme.
 
+![Palette](/insp/Palette.png)
 
-## Simple photos gallery application
+The app icon, I made in Sketch, using the same colours as Flickr, but with the "copy" icon from https://feathericons.com/. I prefer Sketch for doing simple icons like this – instead of Studio, or any of the adobe products.
 
-Your task is to build simple photos gallery based on Flickr's public API.
+![Icon](/assets/icon.png)
+
+## Support
+The app supports all major browsers, but I've only styled it for smaller screens (mobile/tablet).
 
 ## Features
-
-Main features:
-
-* get first 100 photos of dogs
-  * with captions - author, date, description
-* add infinite scroll
-* implement visible error handling from both engineering and user perspectives.
-* use loading indicators
-
-After tackling the above, try to complete as many of the following as you can for extra points.
-
-Extra features (for extra points):
-
-* add ability to see author’s other pictures
-* show map of dogs photos using geolocation
-* allow to search for photos of dogs
-* add offline functionality and ability to add app to Homescreen
-* filter based on parameters: date, color (?), licence, and more
-
-Feel free to add any extra features! Use any front-end stack you prefer.
-
-We value production-readiness over completeness. If you won't be able to finish a part of the assignment, make a note
-of it in the README with a brief info on how you would've solved it.
-
-## References
-* Public API - https://www.flickr.com/services/api/
-* Main search endpoint doc: https://www.flickr.com/services/api/flickr.photos.search.html
-* Url scheme: https://www.flickr.com/services/api/misc.urls.html
-* Example: https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=842223564a15398f1cb603e8cd70e037&text=dogs&format=json&nojsoncallback=
+- [x] get first 25 photos of dogs with captions - author, date
+- [x] add infinite scroll
+- [x] implement visible error handling from both engineering and user perspectives
+- [x] use loading indicators
+- [x] add ability to see author’s other pictures
+- [x] allow to search for photos of dogs
+- [x] add offline functionality and ability to add app to the home-screen
+- [x] filter based on parameters: date, colour (?), licence
+- [ ] show map of dogs photos using geolocation
+    - **how I would have done it:**
+    - I'd add a new button on the filters overlay "Show map"
+    - this would change the feed to a map mode
+    - I'd use google maps, and this api method: ``
+    - I'd keep the search box floating above, but hide it whenever the user pans the map
+    - I'd lazyload the data based on the viewable area

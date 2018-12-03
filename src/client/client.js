@@ -2,7 +2,7 @@ import React from 'react';
 import { hydrate } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
-import App from './components/app';
+import App from './components/App';
 
 // Inject global styles
 const GlobalStyle = createGlobalStyle`
@@ -17,14 +17,14 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 // Read, and then delete the preloaded data sent with markup
-const data = window.preloadedData;
+const { preloadedData } = window;
 delete window.preloadedData;
 
 // Confirm both server and client side pages are identical
 hydrate(
   <BrowserRouter>
     <>
-      <App preloadedData={data} />
+      <App preloadedData={preloadedData} />
       <GlobalStyle />
     </>
   </BrowserRouter>,

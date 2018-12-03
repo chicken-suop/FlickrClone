@@ -10,5 +10,5 @@ export default (colorCodes) => {
     Gray: 'd',
     Black: 'e',
   };
-  colorCodes.map(code => codes[code]).join(',');
+  return colorCodes.map(code => codes[code]).join(',') || null;
 };

@@ -13,9 +13,9 @@
           "type": "image/png"
       }
   ],
-  "theme_color": "#ededed",
-  "background_color": "#ededed",
+  "theme_color": "#eeeeee",
+  "background_color": "#eeeeee",
   "display": "standalone",
   "orientation": "portrait",
-  "start_url": "/client.js"
+  "start_url": "/feed"
 }

@@ -6,13 +6,14 @@ const template = ({ reactDom, styles, preloadedData }) => `
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="manifest" href="/manifest.json">
-    <link rel="apple-touch-icon" sizes="180x180" href="/media/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="/media/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/media/favicon-16x16.png">
-    <link rel="mask-icon" href="/media/safari-pinned-tab.svg" color="#7b7b7b">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ea3580">
+    <meta name="msapplication-TileColor" content="#ea3580">
+    <meta name="theme-color" content="#eeeeee">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
-    <meta name="msapplication-TileColor" content="#ededed">
-    <meta name="theme-color" content="#ededed">
     <title>FlickrClone</title>
     <meta name="Description" content="Clone of Flickr. By Elliot">
     ${styles}
@@ -66,15 +67,16 @@ const template = ({ reactDom, styles, preloadedData }) => `
   </head>
   <body>
     <div id="root">${reactDom}</div>
-    <script>window.preloadedData = ${JSON.stringify(preloadedData)}</script>
     <script>
-    // if ('serviceWorker' in navigator) {
-    //   window.addEventListener('load', () => {
-    //     navigator.serviceWorker.register('/sw.js');
-    //   });
-    // }
+      window.preloadedData = ${JSON.stringify(preloadedData)};
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
     </script>
     <script src="/client.js"></script>
+    <script src="/vendors~client.js"></script>
   </body>
   </html>
 `;
