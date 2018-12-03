@@ -1,6 +1,8 @@
 import axios from 'axios';
-import { APIKey } from '../../../config'; // Create this if it doesn't exist
 import colorCodeMap from './colorCodeMap';
+
+// Doesn't need to be hidden so np
+const APIKey = '1f0b0f4bfe60677eb3432fe814649210';
 
 const status = (response) => {
   if (response.data.stat !== 'ok') {
