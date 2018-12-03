@@ -2,7 +2,7 @@ import React from 'react';
 import { hydrate } from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { createGlobalStyle } from 'styled-components';
-import App from './components/app';
+import App from './components/App';
 
 // Inject global styles
 const GlobalStyle = createGlobalStyle`

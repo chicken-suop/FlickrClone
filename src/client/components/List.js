@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import unixTimestampParse from '../helpers/unixTimestampParse';
@@ -80,6 +81,12 @@ const List = ({ feedData, feedItemBackground, shouldClearPreloadedData }) => {
       })
       : <></>
   );
+};
+
+List.propTypes = {
+  feedData: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  feedItemBackground: PropTypes.string.isRequired,
+  shouldClearPreloadedData: PropTypes.bool.isRequired,
 };
 
 export default List;

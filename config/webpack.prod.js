@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const merge = require('webpack-merge');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const common = require('./webpack.common.js');
 
@@ -22,27 +22,17 @@ module.exports = merge(common, {
     }),
   ],
   optimization: {
-    minimizer: [
-      new UglifyJSPlugin({
-        sourceMap: true,
-        uglifyOptions: {
-          compress: {
-            inline: false,
-          },
-        },
-      }),
-    ],
-    runtimeChunk: false,
-    splitChunks: {
-      cacheGroups: {
-        default: false,
-        commons: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendor_app',
-          chunks: 'all',
-          minChunks: 2,
+    minimizer: [new TerserPlugin({
+      sourceMap: true,
+      terserOptions: {
+        compress: {
+          inline: false,
         },
       },
+    })],
+    runtimeChunk: false,
+    splitChunks: {
+      chunks: 'all',
     },
   },
 });

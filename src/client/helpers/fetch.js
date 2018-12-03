@@ -17,19 +17,25 @@ const catchError = (error) => { throw Error(error); };
 export const searchPhotos = ({
   text = 'dogs',
   page = 1,
-  userId = '',
+  userId,
   colorCodes = [],
+  date = 1541026800,
+  license = [],
+  tags = [],
 }) => (
   axios.get('https://api.flickr.com/services/rest', {
     params: {
+      page,
+      text, // String to search on
+      color_codes: colorCodeMap(colorCodes), // Example input ['Red'],
+      min_taken_date: date, // Mysql datetime or unix timestamp
+      license: license.join(',') || null, // License ids
+      tags: tags.join(',') || null, // Text tags, max 20
       sort: 'relevance',
       content_type: 1, // Send photos
       per_page: 25,
-      page,
-      text, // String to search on
+      tag_mode: 'all',
       user_id: userId,
-      color_codes: colorCodeMap(colorCodes), // Example input ['Red'],
-      min_taken_date: 1541026800, // Mysql datetime or unix timestamp
       method: 'flickr.photos.search',
       api_key: APIKey,
       format: 'json', // They mean JSONP :|
@@ -79,5 +85,19 @@ export const getDetail = photoId => (
     getSizes(photoId),
   ])
     .then(response => response)
+    .catch(catchError)
+);
+
+export const getLicenses = () => (
+  axios.get('https://api.flickr.com/services/rest', {
+    params: {
+      method: 'flickr.photos.licenses.getInfo',
+      api_key: APIKey,
+      format: 'json', // They mean JSONP :|
+      nojsoncallback: 1, // Disable JSONP (send raw JSON) :D
+    },
+  })
+    .then(status)
+    .then(data => data.licenses.license)
     .catch(catchError)
 );

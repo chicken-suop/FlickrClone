@@ -16,7 +16,7 @@ export default [
     path: '/feed/:id',
     exact: true,
     component: Detail,
-    fetchData: params => getDetail(Number(params[0].split('feed/')[1])),
+    fetchData: params => getDetail(parseInt(params[0].split('feed/')[1], 10)),
   },
   {
     id: 2,

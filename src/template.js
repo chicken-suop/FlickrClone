@@ -67,15 +67,16 @@ const template = ({ reactDom, styles, preloadedData }) => `
   </head>
   <body>
     <div id="root">${reactDom}</div>
-    <script>window.preloadedData = ${JSON.stringify(preloadedData)}</script>
     <script>
-    // if ('serviceWorker' in navigator) {
-    //   window.addEventListener('load', () => {
-    //     navigator.serviceWorker.register('/sw.js');
-    //   });
-    // }
+      window.preloadedData = ${JSON.stringify(preloadedData)};
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js');
+        });
+      }
     </script>
     <script src="/client.js"></script>
+    <script src="/vendors~client.js"></script>
   </body>
   </html>
 `;

@@ -10,7 +10,7 @@ import { renderToString } from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
 import { StaticRouter, matchPath } from 'react-router-dom';
 import template from './template';
-import App from './client/components/app';
+import App from './client/components/App';
 import routes from './client/routes';
 
 // New Express instance
