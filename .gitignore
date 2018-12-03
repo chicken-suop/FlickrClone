@@ -12,8 +12,10 @@
 /lib
 /assets/*
 !/assets/browserconfig.xml
+!/assets/site.webmanifest
 !/assets/manifest.json
 !/assets/sw.js
+!/assets/media
 
 # misc
 .DS_Store
