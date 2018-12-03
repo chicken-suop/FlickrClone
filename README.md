@@ -12,7 +12,7 @@ The pallet is a simple four colour scheme.
 
 The app icon, I made in Sketch, using the same colours as Flickr, but with the "copy" icon from https://feathericons.com/. I prefer Sketch for doing simple icons like this – instead of Studio, or any of the adobe products.
 
-![Icon](/assets/icon.png)
+![Icon](/assets/media/android-chrome-512x512.png)
 
 ## Support
 The app supports all major browsers, but I've only styled it for smaller screens (mobile/tablet).
