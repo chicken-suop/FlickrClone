@@ -94,8 +94,16 @@ export default class FiltersOverlay extends React.Component {
   componentDidMount() {
     getLicenses().then((resp) => {
       this.setState({ licenses: resp });
-    }).catch(error => console.warn(error));
+    }).catch(error => console.log(error));
   }
+
+  clearFilters = () => this.setState({
+    dateFilter: {},
+    colourFilter: {},
+    licenseFilter: {},
+    currentTags: [],
+    licenses: [],
+  });
 
   selectFilter = (filter, item) => {
     const {
@@ -156,7 +164,7 @@ export default class FiltersOverlay extends React.Component {
     return (
       <ModalProvider backgroundComponent={Background}>
         <StyledModal isOpen={showing}>
-          <ClearFilters onClick={() => this.setState({ dateFilter: {}, colourFilter: {} })}>
+          <ClearFilters onClick={this.clearFilters}>
             Clear filters
           </ClearFilters>
           <div>

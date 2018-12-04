@@ -5,14 +5,6 @@ import routes from '../routes';
 import preloadedDataPropType from '../helpers/preloadedDataPropType';
 
 const Main = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  background: #ff7657;
-  font-family: 'Source Sans Pro', sans-serif;
-  overflow-y: auto;
-  min-height: 0px;
-
   a {
     color: inherit;
     cursor: pointer;

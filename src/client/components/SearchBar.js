@@ -14,11 +14,9 @@ class SearchBar extends React.Component {
     this.state = {
       isHidden: false,
     };
-    // Document and window don't scroll, only the "#root > div" element does
+
     // Document is undefined in SSR
-    this.node = typeof document !== 'undefined'
-      ? document.querySelector('#root > div')
-      : null;
+    this.document = typeof window !== 'undefined' ? window : 0;
     this.prevScrollTop = 0;
     this.shouldHide = this.shouldHide.bind(this);
   }
@@ -34,10 +32,10 @@ class SearchBar extends React.Component {
 
   shouldHide = () => {
     // Must scroll more than 5px
-    if (Math.abs(this.prevScrollTop - this.node.scrollTop) <= 5) return;
+    if (Math.abs(this.prevScrollTop - this.document.scrollY) <= 5) return;
 
     // Hide searchbar if they scrolled past it, downwards
-    const isHidden = this.node.scrollTop > this.prevScrollTop && this.node.scrollTop > 50;
+    const isHidden = this.document.scrollY > this.prevScrollTop && this.document.scrollY > 50;
     this.setState((prevState) => {
       if (prevState.isHidden !== isHidden) {
         return { isHidden };
@@ -45,7 +43,7 @@ class SearchBar extends React.Component {
       return {};
     });
 
-    this.prevScrollTop = this.node.scrollTop;
+    this.prevScrollTop = this.document.scrollY;
   }
 
   render() {

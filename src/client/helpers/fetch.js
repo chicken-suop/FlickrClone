@@ -6,13 +6,13 @@ const APIKey = '1f0b0f4bfe60677eb3432fe814649210';
 
 const status = (response) => {
   if (response.data.stat !== 'ok') {
-    throw Error(`${response.data.code}: ${response.data.message}`);
+    return Error(`${response.data.code}: ${response.data.message}`);
   }
 
   return response.data;
 };
 
-const catchError = (error) => { throw Error(error); };
+const catchError = error => Error(error);
 
 export const searchPhotos = ({
   text = 'dogs',

@@ -26,7 +26,7 @@ const LinkText = styled.u`
 `;
 
 const withPaginated = Component => (props) => {
-  const { getNewData } = props;
+  const { clearFilters } = props;
   return (
     <div>
       <Component {...props} />
@@ -37,7 +37,7 @@ const withPaginated = Component => (props) => {
           </ErrorText>
           <button
             type="button"
-            onClick={getNewData}
+            onClick={clearFilters}
           >
             <LinkText>
               Clear filters?

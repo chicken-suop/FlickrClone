@@ -27,7 +27,7 @@ const ListWithInfiniteScroll = compose(
 
 const FeedContainer = styled.div`
   padding: ${props => props.padding};
-  margin-top: ${props => props.topMargin};
+  padding-top: ${props => props.topPadding};
 `;
 
 export default class Feed extends React.Component {
@@ -37,7 +37,7 @@ export default class Feed extends React.Component {
     infiniteScroll: PropTypes.bool,
     shouldClearPreloadedData: PropTypes.bool,
     feedItemBackground: PropTypes.string,
-    topMargin: PropTypes.string,
+    topPadding: PropTypes.string,
     padding: PropTypes.string,
   }
 
@@ -47,7 +47,7 @@ export default class Feed extends React.Component {
     infiniteScroll: true,
     shouldClearPreloadedData: true,
     feedItemBackground: '#ffba5a',
-    topMargin: '6rem',
+    topPadding: '7.2rem',
     padding: '1.2rem',
   }
 
@@ -62,6 +62,8 @@ export default class Feed extends React.Component {
       showingFiltersOverlay: false,
     };
     this.filters = {};
+    this.filtersOverlay = React.createRef();
+    this.searchBar = React.createRef();
   }
 
   handleTextChange = async (text) => {
@@ -75,6 +77,12 @@ export default class Feed extends React.Component {
   getNewData = () => {
     const { page } = this.state;
     this.fetchPhotos(this.prevText, page + 1);
+  }
+
+  clearFilters = () => {
+    this.filters = {};
+    this.filtersOverlay.current.clearFilters();
+    this.fetchPhotos('', 1);
   }
 
   fetchPhotos = (text, page) => {
@@ -134,7 +142,7 @@ export default class Feed extends React.Component {
   render() {
     const {
       feedItemBackground,
-      topMargin,
+      topPadding,
       padding,
       showSearch,
       infiniteScroll,
@@ -154,6 +162,7 @@ export default class Feed extends React.Component {
           move={showingFiltersOverlay}
         />
         <FiltersOverlay
+          ref={this.filtersOverlay}
           showing={showingFiltersOverlay}
           handleClose={this.hideFiltersOverlay}
           handleNewFilters={(filters) => {
@@ -161,9 +170,9 @@ export default class Feed extends React.Component {
             this.fetchPhotos(this.prevText, 1);
           }}
         />
-        <FeedContainer topMargin={topMargin} padding={padding}>
+        <FeedContainer topPadding={topPadding} padding={padding}>
           {(showSearch || showingFiltersOverlay) && (
-            <SearchBar onInput={this.handleTextChange} />
+            <SearchBar ref={this.searchBar} onInput={this.handleTextChange} />
           )}
           {infiniteScroll ? (
             <ListWithInfiniteScroll
@@ -172,6 +181,7 @@ export default class Feed extends React.Component {
               isError={isError}
               isLoading={isLoading}
               getNewData={this.getNewData}
+              clearFilters={this.clearFilters}
               shouldClearPreloadedData={shouldClearPreloadedData}
             />
           ) : (
@@ -181,6 +191,7 @@ export default class Feed extends React.Component {
               isError={isError}
               isLoading={isLoading}
               shouldClearPreloadedData={shouldClearPreloadedData}
+              clearFilters={this.clearFilters}
             />
           )}
         </FeedContainer>

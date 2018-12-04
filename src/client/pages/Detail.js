@@ -40,7 +40,6 @@ export default class Detail extends React.Component {
       sizes,
     };
     this.updateComponent = this.updateComponent.bind(this);
-    this.detailElem = React.createRef();
     this.bgImage = React.createRef();
     this.feedRef = React.createRef();
   }
@@ -48,25 +47,19 @@ export default class Detail extends React.Component {
   componentDidMount() {
     const { match } = this.props;
     this.updateComponent(match.params.id);
-    if (this.detailElem.current) {
-      this.detailElem.current.addEventListener(
-        'scroll',
-        () => { this.scrollListener = true; this.bgImage.current.updateHeight(); },
-        { passive: true },
-      );
-    }
+    document.body.style.background = '#fbeed7';
   }
 
   componentDidUpdate(prevProps) {
     const { match } = this.props;
 
     // Scroll listener won't be added if compoenent is loading, add now
-    if (!this.scrollListener && this.detailElem.current) {
-      this.detailElem.current.addEventListener(
-        'scroll',
-        () => { this.scrollListener = true; this.bgImage.current.updateHeight(); },
-        { passive: true },
-      );
+    if (!this.scrollListener && this.bgImage.current) {
+      // Only check every 250ms, instead of on each scroll event
+      this.interval = setInterval(() => {
+        this.scrollListener = true;
+        this.bgImage.current.updateHeight();
+      }, 100);
     }
 
     if (prevProps.match.params.id !== match.params.id) {
@@ -75,10 +68,7 @@ export default class Detail extends React.Component {
   }
 
   componentWillUnmount() {
-    this.detailElem.current.removeEventListener(
-      'scroll',
-      () => { this.scrollListener = false; this.bgImage.current.updateHeight(); },
-    );
+    clearInterval(this.interval);
   }
 
   getElem = (arr, key) => {
@@ -102,7 +92,7 @@ export default class Detail extends React.Component {
         filter: photo => photo.id !== id,
         isBad: (result, text) => result.length === 0 && text !== '',
       });
-    }).catch(error => console.warn(error));
+    }).catch(error => console.log(error));
   }
 
   render() {
@@ -123,10 +113,9 @@ export default class Detail extends React.Component {
     return (isLoading ? (
       <p>Loading...</p>
     ) : (
-      <DetailContainer ref={this.detailElem}>
+      <DetailContainer>
         <BgImage
           ref={this.bgImage}
-          getScrollPos={() => (this.detailElem.current ? this.detailElem.current.scrollTop : 0)}
           windowHeightChanged={(newVal) => { this.height = newVal; }}
           bgImageHeightChanged={newVal => this.setState({ bgImageHeight: newVal })}
           minHeightChanged={newVal => this.setState({ minHeight: newVal })}
@@ -157,7 +146,7 @@ export default class Detail extends React.Component {
               showSearch={false}
               infiniteScroll={false}
               shouldClearPreloadedData={this.query.clearPreloadedData === 'true'}
-              topMargin="1.2rem"
+              topPadding="1.2rem"
               padding="0"
               feedItemBackground="#ff7657"
             />
@@ -170,11 +159,6 @@ export default class Detail extends React.Component {
 
 
 const DetailContainer = styled.div`
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-  min-height: 0px;
   background-color: #fbeed7;
 `;
 

@@ -3,11 +3,9 @@ import React from 'react';
 const withInfiniteScroll = Component => (
   class WithInfiniteScroll extends React.Component {
     componentDidMount() {
-      // Document and window don't scroll, only the "#root > div" element does
-      // Document is undefined in SSR
-      this.node = typeof document !== 'undefined'
-        ? document.querySelector('#root > div')
-        : null;
+      // Document and window are undefined in SSR
+      this.document = typeof document !== 'undefined' ? document.body : null;
+      this.window = typeof window !== 'undefined' ? window : null;
 
       // Only check every 250ms, instead of on each scroll event
       this.interval = setInterval(this.handleScroll, 250);
@@ -19,9 +17,9 @@ const withInfiniteScroll = Component => (
 
     infiniteScrollCondition = () => {
       const { feedData, isLoading, isError } = this.props;
-      const fromBottom = (this.node.scrollHeight - this.node.offsetHeight) - this.node.scrollTop;
+      const fromBottom = (this.document.scrollHeight - this.document.offsetHeight) - (typeof window !== 'undefined' ? window.scrollTop : 0);
       return (
-        (fromBottom <= this.node.offsetHeight * 2)
+        (fromBottom <= this.document.offsetHeight * 2)
         && feedData.length
         && !isLoading
         && !isError

@@ -13,9 +13,9 @@ const template = ({ reactDom, styles, preloadedData }) => `
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ea3580">
     <meta name="msapplication-TileColor" content="#ea3580">
     <meta name="theme-color" content="#eeeeee">
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     <title>FlickrClone</title>
     <meta name="Description" content="Clone of Flickr. By Elliot">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     ${styles}
     <style>
       :root {
@@ -61,22 +61,22 @@ const template = ({ reactDom, styles, preloadedData }) => `
 
     <!-- Lazysizes is easiest to install like this -->
     <!-- Lazysizes Blur Up plugin from https://github.com/aFarkas/lazysizes/tree/master/plugins/blur-up -->
-    <script src="https://afarkas.github.io/lazysizes/plugins/blur-up/ls.blur-up.min.js"></script>
+    <script src="https://afarkas.github.io/lazysizes/plugins/blur-up/ls.blur-up.min.js" async></script>
     <!-- Lazysizes from https://github.com/aFarkas/lazysizes -->
-    <script src="https://afarkas.github.io/lazysizes/lazysizes.min.js"></script>
-  </head>
-  <body>
-    <div id="root">${reactDom}</div>
+    <script src="https://afarkas.github.io/lazysizes/lazysizes.min.js" async></script>
+    <script>window.preloadedData = ${JSON.stringify(preloadedData)};</script>
+    <script src="/client.js" defer></script>
+    <script src="/vendors~client.js" defer></script>
     <script>
-      window.preloadedData = ${JSON.stringify(preloadedData)};
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
           navigator.serviceWorker.register('/sw.js');
         });
       }
     </script>
-    <script src="/client.js"></script>
-    <script src="/vendors~client.js"></script>
+  </head>
+  <body>
+    <div id="root">${reactDom}</div>
   </body>
   </html>
 `;

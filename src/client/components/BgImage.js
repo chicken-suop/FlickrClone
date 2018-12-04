@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 export default class BgImage extends React.Component {
   static propTypes = {
     windowHeightChanged: PropTypes.func.isRequired,
-    getScrollPos: PropTypes.func.isRequired,
     bgImageHeightChanged: PropTypes.func.isRequired,
     minHeightChanged: PropTypes.func.isRequired,
     lowRes: PropTypes.string.isRequired,
@@ -70,27 +69,25 @@ export default class BgImage extends React.Component {
   }
 
   updateCoverHeight() {
-    const { getScrollPos } = this.props;
+    const { coverHeight } = this.state;
     // Make it smaller based on scroll position
-    const coverHeight = this.height - getScrollPos();
+    const newCoverHeight = this.height - (typeof window !== 'undefined' ? window.scrollY : 0);
     // Stop changing height when you reach minimum size
-    if (coverHeight > (this.height * 0.6)) {
-      this.setState((prevState) => {
-        let diff = Math.abs(coverHeight);
+    if (newCoverHeight > (this.height * 0.6)) {
+      let diff = Math.abs(newCoverHeight);
 
-        // Inital height is set to 100vh
-        if (typeof prevState.coverHeight === 'number') {
-          diff = Math.abs(prevState.coverHeight - coverHeight);
-        }
+      // Inital height is set to 100vh
+      if (typeof coverHeight === 'number') {
+        diff = Math.abs(coverHeight - newCoverHeight);
+      }
 
-        const retVal = { minHeight: false };
-
-        // Don't update for every small change, only every 5px
-        if (diff > 5) {
-          retVal.coverHeight = coverHeight;
-        }
-        return retVal;
-      });
+      // Don't update for every small change, only every 5px
+      if (diff > 5) {
+        this.setState({
+          coverHeight: newCoverHeight,
+          minHeight: false,
+        });
+      }
     } else {
       this.setState({ minHeight: true });
     }
