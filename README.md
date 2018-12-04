@@ -8,6 +8,8 @@ Simple photos gallery using Flickr's public API
 - Open https://localhost/feed in your browser, or run `echo "https://$(ipconfig getifaddr en0)/feed"` then open that url on a device on the same lan (phone for ex)
 
 ## Design
+[FlickrClone on InVision](https://projects.invisionapp.com/prototype/FlickrClone-cjoya1zx400b1oi01x0wgmedf)
+
 I made the main app design using [InVision Studio](https://www.invisionapp.com/studio). I chose not to use sketch, because I wanted to try out Studio, see what it's like, and if I'd recommend using either with, or instead of Sketch.
 
 The main design is inspired by a number of other great designs. I've included most of my inspiration in the [insp](/insp) dir.
