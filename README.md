@@ -1,6 +1,12 @@
 # FlickrClone
 Simple photos gallery using Flickr's public API
 
+## Install
+- [Download zip](https://github.com/ratskin/FlickrClone/archive/master.zip), or clone repo
+- `cd ~/Downloads/FlickrClone-master && npm i`
+- `npm run webpack-prod && npm run serv`
+- Open https://localhost/feed in your browser, or run `echo "https://$(ipconfig getifaddr en0)/feed"` then open that url on a device on the same lan (phone for ex)
+
 ## Design
 I made the main app design using [InVision Studio](https://www.invisionapp.com/studio). I chose not to use sketch, because I wanted to try out Studio, see what it's like, and if I'd recommend using either with, or instead of Sketch.
 
