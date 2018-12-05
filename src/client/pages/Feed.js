@@ -66,6 +66,11 @@ export default class Feed extends React.Component {
     this.searchBar = React.createRef();
   }
 
+  componentDidMount() {
+    // Set background color
+    document.body.style.background = '#ff7657';
+  }
+
   handleTextChange = async (text) => {
     this.prevText = text;
     this.setState({ isLoading: true });

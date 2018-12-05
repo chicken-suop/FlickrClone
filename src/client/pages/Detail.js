@@ -42,11 +42,14 @@ export default class Detail extends React.Component {
     this.updateComponent = this.updateComponent.bind(this);
     this.bgImage = React.createRef();
     this.feedRef = React.createRef();
+    this.checkHeight = this.checkHeight.bind(this);
   }
 
   componentDidMount() {
     const { match } = this.props;
     this.updateComponent(match.params.id);
+
+    // Set background color
     document.body.style.background = '#fbeed7';
   }
 
@@ -56,10 +59,7 @@ export default class Detail extends React.Component {
     // Scroll listener won't be added if compoenent is loading, add now
     if (!this.scrollListener && this.bgImage.current) {
       // Only check every 250ms, instead of on each scroll event
-      this.interval = setInterval(() => {
-        this.scrollListener = true;
-        this.bgImage.current.updateHeight();
-      }, 100);
+      this.interval = setInterval(this.checkHeight, 100);
     }
 
     if (prevProps.match.params.id !== match.params.id) {
@@ -79,6 +79,13 @@ export default class Detail extends React.Component {
       ));
     }
     return {};
+  }
+
+  checkHeight() {
+    this.scrollListener = true;
+    if (this.bgImage.current) {
+      this.bgImage.current.updateHeight();
+    }
   }
 
   updateComponent(id) {
