@@ -1,7 +1,15 @@
 # FlickrClone
 Simple photos gallery using Flickr's public API
 
+## Install
+- [Download zip](https://github.com/ratskin/FlickrClone/archive/master.zip), or clone repo
+- `cd ~/Downloads/FlickrClone-master && npm i`
+- `npm run webpack-prod && npm run serv`
+- Open https://localhost/feed in your browser, or run `echo "https://$(ipconfig getifaddr en0)/feed"` then open that url on a device on the same lan (phone for ex)
+
 ## Design
+[FlickrClone on InVision](https://projects.invisionapp.com/prototype/FlickrClone-cjoya1zx400b1oi01x0wgmedf)
+
 I made the main app design using [InVision Studio](https://www.invisionapp.com/studio). I chose not to use sketch, because I wanted to try out Studio, see what it's like, and if I'd recommend using either with, or instead of Sketch.
 
 The main design is inspired by a number of other great designs. I've included most of my inspiration in the [insp](/insp) dir.
@@ -26,10 +34,25 @@ The app supports all major browsers, but I've only styled it for smaller screens
 - [x] allow to search for photos of dogs
 - [x] add offline functionality and ability to add app to the home-screen
 - [x] filter based on parameters: date, colour (?), licence
-- [ ] show map of dogs photos using geolocation
-    - **how I would have done it:**
+- [ ] show map of photos using geolocation
+
+## Possible improvements
+- On scroll animations, specifically that on the Detail page, are "laggy"
+    - This looks to be because of inefficient re-rendering
+- Add filter for showing map of photos using geolocation
+    - **How I would have done it**
     - I'd add a new button on the filters overlay "Show map"
     - this would change the feed to a map mode
     - I'd use google maps, and this api method: ``
     - I'd keep the search box floating above, but hide it whenever the user pans the map
     - I'd lazyload the data based on the viewable area
+- Add more animations and transitions were applicable
+    - Especially when transitioning between feed and detail pages
+- Replace "Loading..." text with nicer animations
+    - Very obvious when going from feed to detail, or detail to another detail page
+- Better error handling
+    - Currently, only supporting most common errors
+    - Should support all api errors, and provide way for user to reset/escape from error
+- Add more filters
+- Work on my webpack configs
+    - Also, learn webpack better
